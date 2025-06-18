@@ -1,0 +1,65 @@
+✅ Review Summary
+
+🔧 Terraform Basics
+Terraform Init: Initializes the project and backend.
+Terraform Plan: Shows what Terraform will do before applying.
+Terraform Apply: Executes the plan and provisions infrastructure.
+.terraform/ folder: Stores Terraform's local state and plugin data.
+State File (*.tfstate): Tracks real infrastructure.
+📁 Remote State with S3
+Use an S3 bucket to store the Terraform state file.
+Set region, bucket, key, and dynamodb_table (for locking).
+Must ensure correct region and bucket permissions.
+Common issues:
+AccessDenied: bad policy or wrong region.
+AuthorizationHeaderMalformed: mismatched region settings.
+🔐 IAM Role for EC2
+Used to grant EC2 instance permissions (e.g., S3, logs).
+Assigned using an IAM instance profile.
+Policy must be attached to the role, not directly to the EC2 instance.
+📦 Terraform Modules
+Used to encapsulate infrastructure logic (like EC2 creation).
+Called via module "ec2" { source = "./modules/ec2" }.
+Access outputs using module.ec2.output_name.
+📤 GitHub
+Must create the repo first on GitHub.
+Use git remote add origin <repo-url>.
+Push using git push -u origin main.
+Mistakes:
+Pushing to mian instead of main
+Not creating the repo beforehand
+🧠 Flashcards
+
+Q: What does terraform init do?
+A: It initializes the working directory and downloads required provider plugins.
+
+Q: What command shows what changes Terraform will make?
+A: terraform plan
+
+Q: Where is the Terraform state stored when using an S3 backend?
+A: In the specified S3 bucket under the given key (e.g., terraform/state.tfstate).
+
+Q: How do you fix AuthorizationHeaderMalformed errors?
+A: Make sure the region in your AWS CLI config and the Terraform backend match.
+
+Q: How do you assign permissions to an EC2 instance in AWS securely?
+A: Create an IAM role, attach a policy, and associate it with the EC2 via an instance profile.
+
+Q: What’s the correct syntax to access a module’s output?
+A: module.module_name.output_name
+
+Q: What’s the purpose of .terraform/?
+A: It stores provider plugins and state-related data. Should be ignored in .gitignore.
+
+Q: How do you push your code to GitHub?
+A:
+
+Create the repo on GitHub.
+Run git remote add origin <repo-url>
+Run git push -u origin main
+Q: What do you do if terraform.tfstate shows errors about region?
+A: Check and correct:
+
+AWS CLI config (~/.aws/config)
+Environment variables (AWS_REGION)
+Backend region in Terraform
